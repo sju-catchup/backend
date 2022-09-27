@@ -1,4 +1,4 @@
-import { AggregateRoot } from '../aggregate.class';
+import { AggregateRoot } from '../model.base';
 
 /** 애그리거트에 추가해야만 기능하는 데코레이터 */
 export const UpdateAggregate: MethodDecorator = (

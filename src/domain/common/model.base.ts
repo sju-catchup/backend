@@ -1,8 +1,12 @@
-export class Entity<IId> {
+export interface IEntity<IId> {
+  readonly id: IId;
+}
+
+export abstract class Entity<IId> implements IEntity<IId> {
   constructor(readonly id: IId) {}
 }
 
-export class AggregateRoot<IId> extends Entity<IId> {
+export abstract class AggregateRoot<IId> extends Entity<IId> {
   constructor(
     readonly id: IId,
     private createdAt: Date,
