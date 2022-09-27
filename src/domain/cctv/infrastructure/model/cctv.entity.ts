@@ -15,4 +15,22 @@ export class CCTVEntity extends TypeOrmRootEntity {
   @Column()
   @IsString()
   address: string;
+
+  static create({
+    x,
+    y,
+    address,
+    id,
+    createdAt,
+    updatedAt,
+  }: CCTVEntity): CCTVEntity {
+    const entity = new CCTVEntity();
+    entity.id = id;
+    entity.address = address;
+    entity.x = x;
+    entity.y = y;
+    entity.createdAt = createdAt;
+    entity.updatedAt = updatedAt;
+    return entity;
+  }
 }

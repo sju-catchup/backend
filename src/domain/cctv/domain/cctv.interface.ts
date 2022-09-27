@@ -6,3 +6,8 @@ export type CreateCCTV = {
   id: ICCTVId;
   address: IAddress;
 } & IPosition;
+
+export type GetCCTV = {
+  createdAt: Date;
+  updatedAt: Date;
+} & CreateCCTV;

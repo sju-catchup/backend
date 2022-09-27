@@ -25,7 +25,7 @@ export abstract class BaseTypeOrmRepository<
     private readonly repository: Repository<IRootEntity>,
   ) {}
 
-  nextId: () => IId;
+  abstract nextId(): IId;
 
   async findOne(id: IId): Promise<IAggregate> {
     const findOption: FindOneOptions = { where: { id } };
@@ -45,5 +45,12 @@ export abstract class BaseTypeOrmRepository<
     const entity = this.mapper.toRootEntity(aggregate);
     await this.repository.remove(entity);
     return;
+  }
+
+  getMapper(): IEntityMapper<IAggregate, IRootEntity> {
+    return this.mapper;
+  }
+  getRepository(): Repository<IRootEntity> {
+    return this.repository;
   }
 }

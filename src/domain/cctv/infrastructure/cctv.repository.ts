@@ -9,6 +9,7 @@ import { CCTVEntity } from './model/cctv.entity';
 import { ICCTVId } from '../domain/cctv.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CCTVEntityMapper } from './cctv.mapper';
 
 @Injectable()
 export class CCTVRepository
@@ -16,10 +17,20 @@ export class CCTVRepository
   implements ICCTVRepository
 {
   constructor(
-    @Inject('CCTVEntityMapper') mapper: IEntityMapper<CCTV, CCTVEntity>,
-    @InjectRepository(CCTVEntity) repository: Repository<CCTVEntity>,
+    @Inject(CCTVEntityMapper)
+    mapper: IEntityMapper<CCTV, CCTVEntity>,
+    @InjectRepository(CCTVEntity)
+    repository: Repository<CCTVEntity>,
   ) {
     super(mapper, repository);
   }
-  findMany: () => Promise<CCTV[]>;
+
+  nextId(): string {
+    return 'adfdfeqfqw';
+  }
+
+  async findMany(): Promise<CCTV[]> {
+    const list = await this.getRepository().find();
+    return list.map(this.getMapper().toAggregate);
+  }
 }

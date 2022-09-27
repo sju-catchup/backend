@@ -1,6 +1,12 @@
 import { AggregateRoot } from 'src/domain/common/model.base';
 import { UpdateAggregate } from 'src/domain/common/decorator/update.aggregate';
-import { CreateCCTV, IAddress, ICCTVId, IPosition } from './cctv.interface';
+import {
+  CreateCCTV,
+  GetCCTV,
+  IAddress,
+  ICCTVId,
+  IPosition,
+} from './cctv.interface';
 
 export class CCTV extends AggregateRoot<ICCTVId> {
   private constructor(
@@ -17,7 +23,9 @@ export class CCTV extends AggregateRoot<ICCTVId> {
     const position: IPosition = { x, y };
     return new CCTV(id, position, address, new Date(), new Date());
   }
-
+  static get({ id, x, y, address, createdAt, updatedAt }: GetCCTV): CCTV {
+    return new CCTV(id, { x, y }, address, createdAt, updatedAt);
+  }
   getId(): ICCTVId {
     return this.id;
   }
