@@ -1,4 +1,4 @@
-import { AggregateRoot } from 'src/domain/common/aggregate.class';
+import { AggregateRoot } from 'src/domain/common/model.base';
 import { UpdateAggregate } from 'src/domain/common/decorator/update.aggregate';
 import { CreateCCTV, IAddress, ICCTVId, IPosition } from './cctv.interface';
 
@@ -17,14 +17,17 @@ export class CCTV extends AggregateRoot<ICCTVId> {
     const position: IPosition = { x, y };
     return new CCTV(id, position, address, new Date(), new Date());
   }
+
   getId(): ICCTVId {
     return this.id;
   }
+
   @UpdateAggregate
   updatePosition(data: IPosition): void {
     this.position = data;
     return;
   }
+
   getPosition(): IPosition {
     return this.position;
   }
@@ -34,6 +37,7 @@ export class CCTV extends AggregateRoot<ICCTVId> {
     this.address = data;
     return;
   }
+
   getAddress(): IAddress {
     return this.address;
   }
