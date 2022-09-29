@@ -7,12 +7,13 @@ export class CCTVController {
 
   @Get('create')
   async create() {
-    await this.cctvService.create();
-    return '완료';
+    const cctv = await this.cctvService.create();
+    return cctv;
   }
 
   @Get('find')
   async findOne() {
-    return this.cctvService.findOne();
+    const result = await this.cctvService.findOne();
+    return result;
   }
 }
