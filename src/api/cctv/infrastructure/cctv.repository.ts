@@ -22,10 +22,6 @@ export class CCTVRepository
     super(mapper, repository);
   }
 
-  nextId(): number {
-    return 0;
-  }
-
   async findMany(): Promise<ICCTV[]> {
     const list = await this.getRepository().find();
     return list.map(this.getMapper().toAggregate);

@@ -3,6 +3,8 @@ import { TypeOrmRootEntity } from './entitiy.base';
 import { IBaseRepository } from './interface/repository.interface';
 import { IEntityMapper } from './interface/mapper.interface';
 import { IRootEntity } from './interface/entity.interface';
+import { httpExceptionProvider } from './exception.provider';
+import { ExceptionMessage } from './message.provider';
 
 export abstract class BaseTypeOrmRepository<
   IId,
@@ -19,7 +21,7 @@ export abstract class BaseTypeOrmRepository<
     const findOption: FindOneOptions = { where: { id } };
     const entity = await this.repository.findOne(findOption);
     if (!entity) {
-      throw new Error('http error');
+      throw httpExceptionProvider('404', ExceptionMessage.NotFoundAggregate);
     }
     return this.mapper.toAggregate(entity);
   }
