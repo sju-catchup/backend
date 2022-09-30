@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { CCTVModule } from './cctv/cctv.module';
 
 @Module({
-  imports: [],
+  imports: [CCTVModule],
   controllers: [],
   providers: [],
 })
