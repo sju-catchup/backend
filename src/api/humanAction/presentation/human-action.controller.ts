@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { HumanActionService } from '../application/human-action.service';
+import { IHumanAction } from '../domain/human-action.interface';
 import {
   CreateHumanActionCommand,
   UpdateHumanActionCommand,
@@ -15,7 +16,8 @@ export class HumanActionController {
 
   @Get()
   async findAll(): Promise<HumanActionArrayResponse> {
-    const HumanAction = await this.humanActionService.findMany();
+    const HumanAction: IHumanAction[] =
+      await this.humanActionService.findMany();
     return { HumanAction };
   }
 
@@ -23,7 +25,9 @@ export class HumanActionController {
   async findOne(
     @Param('human_action_id') id: number,
   ): Promise<HumanActionResponse> {
-    const HumanAction = await this.humanActionService.findOne({ id });
+    const HumanAction: IHumanAction = await this.humanActionService.findOne({
+      id,
+    });
     return { HumanAction };
   }
 
@@ -31,7 +35,9 @@ export class HumanActionController {
   async create(
     @Body() body: CreateHumanActionCommand,
   ): Promise<HumanActionResponse> {
-    const HumanAction = await this.humanActionService.create(body);
+    const HumanAction: IHumanAction = await this.humanActionService.create(
+      body,
+    );
     return { HumanAction };
   }
 
@@ -40,7 +46,10 @@ export class HumanActionController {
     @Param('human_action_id') id: number,
     @Body() body: UpdateHumanActionCommand,
   ): Promise<HumanActionResponse> {
-    const HumanAction = await this.humanActionService.update({ id }, body);
+    const HumanAction: IHumanAction = await this.humanActionService.update(
+      { id },
+      body,
+    );
     return { HumanAction };
   }
 }
