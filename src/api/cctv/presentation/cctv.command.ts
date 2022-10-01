@@ -2,6 +2,7 @@ import { Type } from 'class-transformer';
 import { PartialType } from '@nestjs/swagger';
 import { IsString, ValidateNested } from 'class-validator';
 import { IPosition } from '../domain/cctv.interface';
+import { CreateCCTVDTO, UpdateCCTVDTO } from '../application/cctv.dto';
 
 class Position implements IPosition {
   @IsString()
@@ -11,7 +12,7 @@ class Position implements IPosition {
   y: string;
 }
 
-export class CreateCCTVCommand {
+export class CreateCCTVCommand implements CreateCCTVDTO {
   @IsString()
   address: string;
 
@@ -20,4 +21,6 @@ export class CreateCCTVCommand {
   position: Position;
 }
 
-export class UpdateCCTVCommand extends PartialType(CreateCCTVCommand) {}
+export class UpdateCCTVCommand
+  extends PartialType(CreateCCTVCommand)
+  implements UpdateCCTVDTO {}
