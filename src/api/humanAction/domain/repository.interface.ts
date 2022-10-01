@@ -3,5 +3,5 @@ import { IHAId, IHumanAction } from './human-action.interface';
 
 export interface IHumanActionRepository
   extends IBaseRepository<IHAId, IHumanAction> {
-  findMany: () => Promise<IHumanAction[]>;
+  setVisible: (aggregate: IHumanAction) => Promise<void>;
 }

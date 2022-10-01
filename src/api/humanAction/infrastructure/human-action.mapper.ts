@@ -49,6 +49,7 @@ export class HumanActionEntityMapper
     entity.uri = uri;
     entity.createdAt = createdAt;
     entity.updatedAt = updatedAt;
+    entity.visible = true;
     return entity;
   }
 }

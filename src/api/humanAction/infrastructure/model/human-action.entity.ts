@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsString, IsUrl } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsString, IsUrl } from 'class-validator';
 import { ICCTVId } from 'src/api/cctv/domain/cctv.interface';
 import { TypeOrmRootEntity } from 'src/api/common/entitiy.base';
 import { Column, Entity } from 'typeorm';
@@ -24,4 +24,8 @@ export class HumanActionEntity extends TypeOrmRootEntity {
   @Column()
   @IsNumber()
   cctv_id: ICCTVId;
+
+  @Column({ default: true })
+  @IsBoolean()
+  visible: boolean;
 }

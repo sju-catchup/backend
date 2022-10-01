@@ -51,6 +51,6 @@ export class HumanActionService {
   /** Transaction 필요함 */
   async remove({ id }: RemoveHumanActionDTO): Promise<void> {
     const agg = await this.repository.findOne(id);
-    return this.repository.remove(agg);
+    return this.repository.setVisible(agg);
   }
 }
