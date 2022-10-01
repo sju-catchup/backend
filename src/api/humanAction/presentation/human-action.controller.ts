@@ -1,6 +1,10 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { HumanActionService } from '../application/human-action.service';
-import { UpdateHumanActionCommand } from './human-action.command';
+import { IHumanAction } from '../domain/human-action.interface';
+import {
+  CreateHumanActionCommand,
+  UpdateHumanActionCommand,
+} from './human-action.command';
 import {
   HumanActionArrayResponse,
   HumanActionResponse,
@@ -12,7 +16,8 @@ export class HumanActionController {
 
   @Get()
   async findAll(): Promise<HumanActionArrayResponse> {
-    const HumanAction = await this.humanActionService.findMany();
+    const HumanAction: IHumanAction[] =
+      await this.humanActionService.findMany();
     return { HumanAction };
   }
 
@@ -20,16 +25,31 @@ export class HumanActionController {
   async findOne(
     @Param('human_action_id') id: number,
   ): Promise<HumanActionResponse> {
-    const HumanAction = await this.humanActionService.findOne({ id });
+    const HumanAction: IHumanAction = await this.humanActionService.findOne({
+      id,
+    });
+    return { HumanAction };
+  }
+
+  @Post()
+  async create(
+    @Body() body: CreateHumanActionCommand,
+  ): Promise<HumanActionResponse> {
+    const HumanAction: IHumanAction = await this.humanActionService.create(
+      body,
+    );
     return { HumanAction };
   }
 
   @Patch(':human_action_id')
   async update(
     @Param('human_action_id') id: number,
-    @Body() { type }: UpdateHumanActionCommand,
+    @Body() body: UpdateHumanActionCommand,
   ): Promise<HumanActionResponse> {
-    const HumanAction = await this.humanActionService.update({ id }, { type });
+    const HumanAction: IHumanAction = await this.humanActionService.update(
+      { id },
+      body,
+    );
     return { HumanAction };
   }
 }
