@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { HumanActionService } from '../application/human-action.service';
 import { IHumanAction } from '../domain/human-action.interface';
 import {
@@ -7,6 +15,7 @@ import {
 } from './human-action.command';
 import {
   HumanActionArrayResponse,
+  HumanActionDeleteResponse,
   HumanActionResponse,
 } from './human-action.response';
 
@@ -51,5 +60,13 @@ export class HumanActionController {
       body,
     );
     return { HumanAction };
+  }
+
+  @Delete(':human_action_id')
+  async remove(
+    @Param('human_action_id') id: number,
+  ): Promise<HumanActionDeleteResponse> {
+    await this.humanActionService.remove({ id });
+    return { human_action_id: id };
   }
 }
