@@ -1,11 +1,11 @@
 import { ICCTV, ICCTVId } from '../domain/cctv.interface';
 
 export type CCTVResponse = {
-  cctv: ICCTV;
+  CCTV: ICCTV;
 };
 
 export type CCTVArrayResponse = {
-  cctv: ICCTV[];
+  CCTV: ICCTV[];
 };
 
 export type CCTVDeleteResponse = {
