@@ -1,4 +1,4 @@
-import { IHumanAction } from '../domain/human-action.interface';
+import { IHAId, IHumanAction } from '../domain/human-action.interface';
 
 export type HumanActionResponse = {
   HumanAction: IHumanAction;
@@ -6,4 +6,8 @@ export type HumanActionResponse = {
 
 export type HumanActionArrayResponse = {
   HumanAction: IHumanAction[];
+};
+
+export type HumanActionDeleteResponse = {
+  human_action_id: IHAId;
 };
