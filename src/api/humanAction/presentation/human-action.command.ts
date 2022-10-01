@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IsDate, IsNumber, IsOptional, IsString, IsUrl } from 'class-validator';
 import {
   CreateHumanActionDTO,
@@ -15,9 +16,11 @@ export class CreateHumanActionCommand implements CreateHumanActionDTO {
   type: string;
 
   @IsDate()
+  @Type(() => Date)
   start_time: Date;
 
   @IsDate()
+  @Type(() => Date)
   end_time: Date;
 
   @IsUrl()

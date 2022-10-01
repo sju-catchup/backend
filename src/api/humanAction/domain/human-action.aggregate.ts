@@ -9,13 +9,13 @@ import {
 export class HumanAction extends Aggregate<IHAId> implements IHumanAction {
   private constructor(
     id: IHAId,
+    createdAt: Date,
+    updatedAt: Date,
     public type: string,
     readonly start_time: Date,
     readonly end_time: Date,
     readonly uri: string,
     readonly cctv_id: ICCTVId,
-    createdAt: Date,
-    updatedAt: Date,
   ) {
     super(id, createdAt, updatedAt);
   }
@@ -31,15 +31,16 @@ export class HumanAction extends Aggregate<IHAId> implements IHumanAction {
     updatedAt,
   }: HumanActionProps): IHumanAction {
     const now = new Date();
-    return new HumanAction(
+    const agg = new HumanAction(
       id ?? 0, // 0은 임시 Id
+      createdAt ?? now,
+      updatedAt ?? now,
       type,
       start_time,
       end_time,
       uri,
       cctv_id,
-      createdAt ?? now,
-      updatedAt ?? now,
     );
+    return agg;
   }
 }

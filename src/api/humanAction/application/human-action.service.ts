@@ -29,11 +29,11 @@ export class HumanActionService {
   }
 
   async findOne({ id }: FindOneHumanActionDTO): Promise<IHumanAction> {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, { cctv: true });
   }
 
   async findMany(): Promise<IHumanAction[]> {
-    return this.repository.findMany();
+    return this.repository.findMany({ cctv: true });
   }
 
   /** Transaction 필요함 */

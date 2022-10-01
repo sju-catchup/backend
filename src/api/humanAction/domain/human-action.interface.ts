@@ -1,4 +1,4 @@
-import { ICCTVId } from 'src/api/cctv/domain/cctv.interface';
+import { ICCTV, ICCTVId } from 'src/api/cctv/domain/cctv.interface';
 import { IRootEntity } from 'src/api/common/interface/entity.interface';
 
 export type IHAId = number;
@@ -9,6 +9,7 @@ export interface IHumanAction extends IRootEntity<IHAId> {
   end_time: Date;
   uri: string;
   cctv_id: ICCTVId;
+  cctv?: ICCTV;
 }
 
 export type HumanActionProps = Omit<IHumanAction, keyof IRootEntity<IHAId>> &
