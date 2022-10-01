@@ -28,7 +28,7 @@ export abstract class BaseTypeOrmRepository<
 
   async findMany(): Promise<IAggregate[]> {
     const list = await this.getRepository().find();
-    return list.map(this.getMapper().toAggregate);
+    return list.map(this.mapper.toAggregate);
   }
 
   async save(aggregate: IAggregate): Promise<IAggregate> {
