@@ -26,6 +26,11 @@ export abstract class BaseTypeOrmRepository<
     return this.mapper.toAggregate(entity);
   }
 
+  async findMany(): Promise<IAggregate[]> {
+    const list = await this.getRepository().find();
+    return list.map(this.getMapper().toAggregate);
+  }
+
   async save(aggregate: IAggregate): Promise<IAggregate> {
     const entity = this.mapper.toRootEntity(aggregate);
     delete entity.createdAt;

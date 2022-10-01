@@ -21,9 +21,4 @@ export class CCTVRepository
   ) {
     super(mapper, repository);
   }
-
-  async findMany(): Promise<ICCTV[]> {
-    const list = await this.getRepository().find();
-    return list.map(this.getMapper().toAggregate);
-  }
 }
