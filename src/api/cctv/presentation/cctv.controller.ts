@@ -27,30 +27,24 @@ export class CCTVController {
     return { CCTV };
   }
 
-  @Post('create')
-  async create(
-    @Body() { position, address }: CreateCCTVCommand,
-  ): Promise<CCTVResponse> {
-    const dto: CreateCCTVDTO = { position, address };
-    const CCTV: ICCTV = await this.cctvService.create(dto);
-    return { CCTV };
-  }
-
   @Get(':cctv_id')
   async findOne(@Param('cctv_id') id: number): Promise<CCTVResponse> {
     const CCTV: ICCTV = await this.cctvService.findOne({ id });
     return { CCTV };
   }
 
+  @Post()
+  async create(@Body() body: CreateCCTVCommand): Promise<CCTVResponse> {
+    const CCTV: ICCTV = await this.cctvService.create(body);
+    return { CCTV };
+  }
+
   @Patch(':cctv_id')
   async update(
     @Param('cctv_id') id: number,
-    @Body() { position, address }: UpdateCCTVCommand,
+    @Body() body: UpdateCCTVCommand,
   ): Promise<CCTVResponse> {
-    const CCTV: ICCTV = await this.cctvService.update(
-      { id },
-      { position, address },
-    );
+    const CCTV: ICCTV = await this.cctvService.update({ id }, body);
     return { CCTV };
   }
 
