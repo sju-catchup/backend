@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateCCTVDTO } from '../application/cctv.dto';
 import { CCTVService } from '../application/cctv.service';
 import { ICCTV } from '../domain/cctv.interface';
 import { CreateCCTVCommand, UpdateCCTVCommand } from './cctv.command';

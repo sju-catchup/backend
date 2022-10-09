@@ -1,6 +1,6 @@
 type IEnv = {
   NODE_ENV: 'development' | 'production' | 'test';
-  PORT: string;
+  PORT: string | number;
 
   DB_HOST: string;
   DB_PORT: string;
@@ -8,3 +8,9 @@ type IEnv = {
   DB_PASSWORD: string;
   DB_DATABASE: string;
 };
+
+declare namespace NodeJS {
+  interface ProcessEnv extends IEnv {
+    [key: string]: string | undefined;
+  }
+}

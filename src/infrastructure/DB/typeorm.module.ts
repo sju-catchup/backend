@@ -1,11 +1,10 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule as OriginalOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
 
 export const TypeOrmModule = OriginalOrmModule.forRootAsync({
   imports: [ConfigModule],
   inject: [ConfigService],
-  useFactory: async (configService: ConfigService<IEnv>) => ({
+  useFactory: async (configService: ConfigService<IEnv, true>) => ({
     type: 'mysql',
     host: configService.get('DB_HOST'),
     port: parseInt(configService.get('DB_PORT')),
@@ -16,8 +15,4 @@ export const TypeOrmModule = OriginalOrmModule.forRootAsync({
     logging: true,
     entities: ['dist/**/*.entity{.ts,.js}'],
   }),
-  dataSourceFactory: async (option) => {
-    const dataSource = await new DataSource(option).initialize();
-    return dataSource;
-  },
 });
