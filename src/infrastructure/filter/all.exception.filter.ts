@@ -50,7 +50,11 @@ export class AllExceptionFilter implements ExceptionFilter {
     return exception.message;
   }
   extractMessageInUnKnwon(exception: unknown): string {
-    if (typeof exception === 'object' && 'message' in exception) {
+    if (
+      !!exception &&
+      typeof exception === 'object' &&
+      'message' in exception
+    ) {
       const message = exception['message'];
       if (typeof message == 'string') {
         return message;

@@ -12,8 +12,8 @@ export abstract class TypeOrmRootEntity implements IRootEntity<number> {
   id: number;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 }

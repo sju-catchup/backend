@@ -17,6 +17,6 @@ export const httpExceptionProvider = (
       return new NotFoundException(message);
 
     default:
-      return new HttpException(message, parseInt(statusCode));
+      return new HttpException(message ?? '', parseInt(statusCode));
   }
 };
