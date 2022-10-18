@@ -9,12 +9,14 @@ import {
   RemoveHumanActionDTO,
   UpdateHumanActionDTO,
 } from './human-action.dto';
+import { HumanActionGateway } from '../presentation/human-action.gateway';
 
 @Injectable()
 export class HumanActionService {
   constructor(
     @Inject(HumanActionRepository)
     private readonly repository: IHumanActionRepository,
+    private readonly gateway: HumanActionGateway,
   ) {}
 
   async create({
@@ -25,7 +27,12 @@ export class HumanActionService {
     cctv_id,
   }: CreateHumanActionDTO): Promise<IHumanAction> {
     const agg = HumanAction.get({ type, start_time, end_time, uri, cctv_id });
-    return this.repository.save(agg);
+
+    const result = await this.repository.save(agg);
+    this.gateway.emitNewHumanActionEvent(
+      this.repository.findOne(1, { cctv: true }),
+    );
+    return result;
   }
 
   async findOne({ id }: FindOneHumanActionDTO): Promise<IHumanAction> {

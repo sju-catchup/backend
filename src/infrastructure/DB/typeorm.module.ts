@@ -12,7 +12,7 @@ export const TypeOrmModule = OriginalOrmModule.forRootAsync({
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_DATABASE'),
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: ['dist/**/*.entity{.ts,.js}'],
   }),
 });

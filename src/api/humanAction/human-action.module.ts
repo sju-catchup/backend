@@ -5,6 +5,7 @@ import { HumanActionEntity } from './infrastructure/model/human-action.entity';
 import { HumanActionRepository } from './infrastructure/human-action.repository';
 import { HumanActionController } from './presentation/human-action.controller';
 import { HumanActionService } from './application/human-action.service';
+import { HumanActionGateway } from './presentation/human-action.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([HumanActionEntity])],
@@ -12,6 +13,7 @@ import { HumanActionService } from './application/human-action.service';
     HumanActionEntityMapper,
     HumanActionRepository,
     HumanActionService,
+    HumanActionGateway,
   ],
   controllers: [HumanActionController],
 })
