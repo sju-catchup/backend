@@ -13,6 +13,7 @@ import {
   CreateHumanActionCommand,
   UpdateHumanActionCommand,
 } from './human-action.command';
+import { HumanActionGateway } from './human-action.gateway';
 import {
   HumanActionArrayResponse,
   HumanActionDeleteResponse,
@@ -21,13 +22,25 @@ import {
 
 @Controller('human-action')
 export class HumanActionController {
-  constructor(private readonly humanActionService: HumanActionService) {}
+  constructor(
+    private readonly humanActionService: HumanActionService,
+    private readonly gateway: HumanActionGateway,
+  ) {}
 
   @Get()
   async findAll(): Promise<HumanActionArrayResponse> {
     const HumanAction: IHumanAction[] =
       await this.humanActionService.findMany();
     return { HumanAction };
+  }
+
+  @Get('socket-test')
+  async test(): Promise<HumanActionResponse> {
+    const humanAction: IHumanAction = await this.humanActionService.findOne({
+      id: 1,
+    });
+    this.gateway.emitNewHumanActionEvent({ ...humanAction, id: 100 });
+    return { HumanAction: { ...humanAction, id: 100 } };
   }
 
   @Get(':human_action_id')
@@ -37,6 +50,7 @@ export class HumanActionController {
     const HumanAction: IHumanAction = await this.humanActionService.findOne({
       id,
     });
+
     return { HumanAction };
   }
 
