@@ -10,7 +10,7 @@ export const map_HumanActionEntity_to_IHumanAction = ({
   start_time,
   end_time,
   cctv_id,
-  uri,
+  url,
   createdAt,
   updatedAt,
 }: HumanActionEntity): IHumanAction => {
@@ -20,7 +20,7 @@ export const map_HumanActionEntity_to_IHumanAction = ({
     start_time,
     end_time,
     cctv_id,
-    uri,
+    url,
     createdAt,
     updatedAt,
   });
@@ -32,7 +32,7 @@ export const map_IHumanAction_to_HumanActionEntity = ({
   start_time,
   end_time,
   cctv_id,
-  uri,
+  url,
   createdAt,
   updatedAt,
 }: IHumanAction): HumanActionEntity => {
@@ -42,7 +42,7 @@ export const map_IHumanAction_to_HumanActionEntity = ({
   entity.start_time = start_time;
   entity.end_time = end_time;
   entity.cctv_id = cctv_id;
-  entity.uri = uri;
+  entity.url = url;
   entity.createdAt = createdAt;
   entity.updatedAt = updatedAt;
   entity.visible = true;

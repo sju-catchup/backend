@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CCTVService } from '../application/cctv.service';
 import { ICCTV } from '../domain/cctv.interface';
-import { CreateCCTVCommand, UpdateCCTVCommand } from './cctv.command';
+import { CreateCCTVList, UpdateCCTVCommand } from './cctv.command';
 import {
   CCTVArrayResponse,
   CCTVDeleteResponse,
@@ -33,8 +33,8 @@ export class CCTVController {
   }
 
   @Post()
-  async create(@Body() body: CreateCCTVCommand): Promise<CCTVResponse> {
-    const CCTV: ICCTV = await this.cctvService.create(body);
+  async create(@Body() body: CreateCCTVList) {
+    const CCTV: ICCTV[] = await this.cctvService.create(body);
     return { CCTV };
   }
 

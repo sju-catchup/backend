@@ -8,7 +8,7 @@ export interface IHumanAction extends Aggregate<IHAId> {
   type: string;
   start_time: Date;
   end_time: Date;
-  uri: string;
+  url: string;
   cctv_id: ICCTVId;
   cctv?: ICCTV;
 }

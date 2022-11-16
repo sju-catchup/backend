@@ -21,6 +21,12 @@ export class CreateCCTVCommand implements CreateCCTVDTO {
   position: Position;
 }
 
+export class CreateCCTVList {
+  @ValidateNested({ each: true })
+  @Type(() => CreateCCTVCommand)
+  cctvs: CreateCCTVCommand[];
+}
+
 export class UpdateCCTVCommand
   extends PartialType(CreateCCTVCommand)
   implements UpdateCCTVDTO {}

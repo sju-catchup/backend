@@ -4,7 +4,7 @@ import { CCTVEntity } from 'src/api/cctv/infrastructure/model/cctv.entity';
 import { TypeOrmRootEntity } from 'src/api/common/entitiy.base';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'human_actions' })
 export class HumanActionEntity extends TypeOrmRootEntity {
   @Column()
   @IsString()
@@ -20,7 +20,7 @@ export class HumanActionEntity extends TypeOrmRootEntity {
 
   @Column()
   @IsUrl()
-  uri: string;
+  url: string;
 
   @Column()
   @IsNumber()

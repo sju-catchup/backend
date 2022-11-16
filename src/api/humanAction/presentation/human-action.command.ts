@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsNumber, IsOptional, IsString, IsUrl } from 'class-validator';
+import {
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUrl,
+  ValidateNested,
+} from 'class-validator';
 import {
   CreateHumanActionDTO,
   UpdateHumanActionDTO,
@@ -24,8 +31,15 @@ export class CreateHumanActionCommand implements CreateHumanActionDTO {
   end_time: Date;
 
   @IsUrl()
-  uri: string;
+  url: string;
 
   @IsNumber()
+  @Type(() => Number)
   cctv_id: number;
+}
+
+export class CreateHAList {
+  @ValidateNested({ each: true })
+  @Type(() => CreateHumanActionCommand)
+  has: CreateHumanActionCommand[];
 }

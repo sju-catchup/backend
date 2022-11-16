@@ -4,12 +4,12 @@ import { IHumanAction } from '../domain/human-action.interface';
 import { IHumanActionRepository } from '../domain/repository.interface';
 import { HumanActionRepository } from '../infrastructure/human-action.repository';
 import {
-  CreateHumanActionDTO,
   FindOneHumanActionDTO,
   RemoveHumanActionDTO,
   UpdateHumanActionDTO,
 } from './human-action.dto';
 import { HumanActionGateway } from '../presentation/human-action.gateway';
+import { CreateHAList } from '../presentation/human-action.command';
 
 @Injectable()
 export class HumanActionService {
@@ -19,19 +19,15 @@ export class HumanActionService {
     private readonly gateway: HumanActionGateway,
   ) {}
 
-  async create({
-    type,
-    start_time,
-    end_time,
-    uri,
-    cctv_id,
-  }: CreateHumanActionDTO): Promise<IHumanAction> {
-    const agg = HumanAction.get({ type, start_time, end_time, uri, cctv_id });
-
-    const result = await this.repository.save(agg);
-    this.gateway.emitNewHumanActionEvent(
-      this.repository.findOne(1, { cctv: true }),
-    );
+  async create({ has }: CreateHAList): Promise<IHumanAction[]> {
+    const result: IHumanAction[] = [];
+    for (const { cctv_id, url, type, start_time, end_time } of has) {
+      const agg = HumanAction.get({ type, start_time, end_time, url, cctv_id });
+      const ha = await this.repository.save(agg);
+      result.push(ha);
+      const HA = await this.repository.findOne(ha.id, { cctv: true });
+      this.gateway.emitNewHumanActionEvent(HA);
+    }
     return result;
   }
 

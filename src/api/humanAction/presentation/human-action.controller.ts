@@ -9,10 +9,7 @@ import {
 } from '@nestjs/common';
 import { HumanActionService } from '../application/human-action.service';
 import { IHumanAction } from '../domain/human-action.interface';
-import {
-  CreateHumanActionCommand,
-  UpdateHumanActionCommand,
-} from './human-action.command';
+import { UpdateHumanActionCommand, CreateHAList } from './human-action.command';
 import { HumanActionGateway } from './human-action.gateway';
 import {
   HumanActionArrayResponse,
@@ -39,8 +36,12 @@ export class HumanActionController {
     const humanAction: IHumanAction = await this.humanActionService.findOne({
       id: 1,
     });
-    this.gateway.emitNewHumanActionEvent({ ...humanAction, id: 100 });
-    return { HumanAction: { ...humanAction, id: 100 } };
+    this.gateway.emitNewHumanActionEvent({
+      ...humanAction,
+      id: 100,
+      createdAt: new Date(),
+    });
+    return { HumanAction: { ...humanAction, id: 100, createdAt: new Date() } };
   }
 
   @Get(':human_action_id')
@@ -55,12 +56,10 @@ export class HumanActionController {
   }
 
   @Post()
-  async create(
-    @Body() body: CreateHumanActionCommand,
-  ): Promise<HumanActionResponse> {
-    const HumanAction: IHumanAction = await this.humanActionService.create(
-      body,
-    );
+  async create(@Body() { has }: CreateHAList) {
+    const HumanAction: IHumanAction[] = await this.humanActionService.create({
+      has,
+    });
     return { HumanAction };
   }
 

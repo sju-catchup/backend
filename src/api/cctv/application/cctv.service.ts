@@ -3,12 +3,8 @@ import { CCTV } from '../domain/cctv.aggregate';
 import { ICCTV } from '../domain/cctv.interface';
 import { ICCTVRepository } from '../domain/repository.interface';
 import { CCTVRepository } from '../infrastructure/cctv.repository';
-import {
-  CreateCCTVDTO,
-  FindOneCCTVDTO,
-  RemoveCCTVDTO,
-  UpdateCCTVDTO,
-} from './cctv.dto';
+import { CreateCCTVList } from '../presentation/cctv.command';
+import { FindOneCCTVDTO, RemoveCCTVDTO, UpdateCCTVDTO } from './cctv.dto';
 
 @Injectable()
 export class CCTVService {
@@ -16,9 +12,16 @@ export class CCTVService {
     @Inject(CCTVRepository) private readonly repository: ICCTVRepository,
   ) {}
 
-  async create({ position: { x, y }, address }: CreateCCTVDTO): Promise<ICCTV> {
-    const agg = CCTV.get({ x, y, address });
-    return this.repository.save(agg);
+  async create({ cctvs }: CreateCCTVList): Promise<ICCTV[]> {
+    const result: ICCTV[] = [];
+    for (const {
+      address,
+      position: { x, y },
+    } of cctvs) {
+      const agg = CCTV.get({ x, y, address });
+      result.push(await this.repository.save(agg));
+    }
+    return result;
   }
 
   async findOne({ id }: FindOneCCTVDTO): Promise<ICCTV> {

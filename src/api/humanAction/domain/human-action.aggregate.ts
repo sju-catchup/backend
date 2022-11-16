@@ -14,7 +14,7 @@ export class HumanAction extends Aggregate<IHAId> implements IHumanAction {
     public type: string,
     readonly start_time: Date,
     readonly end_time: Date,
-    readonly uri: string,
+    readonly url: string,
     readonly cctv_id: ICCTVId,
   ) {
     super(id, createdAt, updatedAt);
@@ -25,7 +25,7 @@ export class HumanAction extends Aggregate<IHAId> implements IHumanAction {
     type,
     start_time,
     end_time,
-    uri,
+    url,
     cctv_id,
     createdAt,
     updatedAt,
@@ -38,7 +38,7 @@ export class HumanAction extends Aggregate<IHAId> implements IHumanAction {
       type,
       start_time,
       end_time,
-      uri,
+      url,
       cctv_id,
     );
     return agg;
