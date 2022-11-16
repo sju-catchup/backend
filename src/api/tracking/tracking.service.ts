@@ -1,14 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
-import { CreateDTO } from './tracking.dto';
+import { CreateDTO, FindManySuspect } from './tracking.dto';
 import { TrackingEntity } from './tracking.entity';
 import { TrackingGateway } from './tracking.gateway';
-
-interface FindMany {
-  start_time: Date;
-  end_time: Date;
-}
 
 @Injectable()
 export class TrackingService {
@@ -19,31 +14,30 @@ export class TrackingService {
   ) {}
 
   async create({ entities }: CreateDTO) {
-    const promises: Promise<TrackingEntity>[] = [];
-
+    const result: TrackingEntity[] = [];
     for (const { time, type, cctv_id, url } of entities) {
       const entity = new TrackingEntity();
       entity.cctv_id = cctv_id;
       entity.time = time;
       entity.type = type;
       entity.url = url;
-      promises.push(this.repository.save(entity));
+      const track = await this.repository.save(entity);
+      result.push(track);
+      await this.gateway.emitTrackingResultEvent(track);
     }
-    const result = await Promise.all(promises);
-    await this.gateway.emitTrackingResultEvent(result);
     return result;
   }
 
-  findResult() {
-    return this.repository.find({
-      where: { type: 'Result' },
+  findOne(id: number) {
+    return this.repository.findOne({
+      where: { id, type: 'Result' },
       relations: { cctv: true },
     });
   }
 
-  findMany({ start_time, end_time }: FindMany) {
+  findMany({ start_time, end_time, cctv_id }: FindManySuspect) {
     return this.repository.find({
-      where: { type: 'Suspect', time: Between(start_time, end_time) },
+      where: { type: 'Suspect', cctv_id, time: Between(start_time, end_time) },
       relations: { cctv: true },
     });
   }

@@ -31,19 +31,6 @@ export class HumanActionController {
     return { HumanAction };
   }
 
-  @Get('socket-test')
-  async test(): Promise<HumanActionResponse> {
-    const humanAction: IHumanAction = await this.humanActionService.findOne({
-      id: 1,
-    });
-    this.gateway.emitNewHumanActionEvent({
-      ...humanAction,
-      id: 100,
-      createdAt: new Date(),
-    });
-    return { HumanAction: { ...humanAction, id: 100, createdAt: new Date() } };
-  }
-
   @Get(':human_action_id')
   async findOne(
     @Param('human_action_id') id: number,
@@ -51,7 +38,7 @@ export class HumanActionController {
     const HumanAction: IHumanAction = await this.humanActionService.findOne({
       id,
     });
-
+    await this.gateway.emitNewHumanActionEvent(HumanAction);
     return { HumanAction };
   }
 

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CreateDTO, FindManySuspect } from './tracking.dto';
 import { TrackingGateway } from './tracking.gateway';
 import { TrackingService } from './tracking.service';
@@ -15,14 +23,19 @@ export class TrackingController {
     return this.service.create({ entities });
   }
 
-  @Get('suspect')
-  findMany(@Body() { start_time, end_time }: FindManySuspect) {
-    return this.service.findMany({ start_time, end_time });
+  @Post('suspect')
+  async findMany(@Body() { start_time, end_time, cctv_id }: FindManySuspect) {
+    return {
+      Suspect: await this.service.findMany({ start_time, end_time, cctv_id }),
+    };
   }
 
-  @Get('result')
-  async findManyResult() {
-    const result = await this.service.findResult();
+  @Get(':tracking_id')
+  async findOne(@Param('tracking_id') id: number) {
+    const result = await this.service.findOne(+id);
+    if (result == null) {
+      throw new NotFoundException('정보 없음');
+    }
     await this.gateway.emitTrackingResultEvent(result);
     return result;
   }

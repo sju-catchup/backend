@@ -8,6 +8,9 @@ import {
 } from 'class-validator';
 
 export class FindManySuspect {
+  @IsNumber()
+  cctv_id: number;
+
   @IsDate()
   @Type(() => Date)
   start_time: Date;

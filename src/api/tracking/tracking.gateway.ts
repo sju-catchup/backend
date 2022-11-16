@@ -11,8 +11,8 @@ export class TrackingGateway {
   @WebSocketServer()
   server: Server;
 
-  async emitTrackingResultEvent(result: TrackingEntity[]): Promise<void> {
-    this.server.emit('Tracking_Result', { result });
+  async emitTrackingResultEvent(Tracking: TrackingEntity): Promise<void> {
+    this.server.emit('Tracking_Result', { Tracking });
     return;
   }
 }
