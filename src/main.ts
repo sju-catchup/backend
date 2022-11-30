@@ -4,9 +4,15 @@ import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
-  app.use(helmet({ contentSecurityPolicy: true, hidePoweredBy: true }));
+  const app = await NestFactory.create(AppModule);
+  app.use(
+    helmet({
+      contentSecurityPolicy: true,
+      hidePoweredBy: true,
+    }),
+  );
   app.use(cookieParser());
+  app.enableCors({ origin: true });
   await app.listen(process.env.PORT);
 }
 bootstrap();

@@ -28,7 +28,7 @@ export class HumanActionController {
   async findAll(): Promise<HumanActionArrayResponse> {
     const HumanAction: IHumanAction[] =
       await this.humanActionService.findMany();
-    return { HumanAction };
+    return { HumanAction: HumanAction.slice(0, 2) };
   }
 
   @Get(':human_action_id')
